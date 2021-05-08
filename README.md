@@ -27,5 +27,10 @@ Zink ontop of Turnip currently exposes OpenGL 3.0 on an Adreno 650 GPU which sho
 * Now you are able to open ExaGear and launch your games
 * When you are done, please do not forget to press STOP to properly kill all the background processes, otherwise they will continue running in the background and drain your battery
 
+## Third party software:
+* [AnLinux Ubuntu rootfs](https://github.com/EXALAB/Anlinux-Resources/tree/master/Rootfs/Ubuntu/arm64) GPL-2.0 License
+* [Mesa (includes Turnip, virgl and zink)](https://github.com/mesa3d/mesa) MIT License and other GPL2 compatible licenses
+* [virgl vtest](https://gitlab.freedesktop.org/virgl/virglrenderer) MIT License
+
 ## Disclaimer
 **I am not responsible for any damage, harm, file losses, etc that might occur to you, your device or other belongings by using this app. Use at your own risks. The emulation process of ExaGear (and virgl) is very taxing on the CPU and GPU, so _always_ keep your CPU, GPU and battery temperatures under close observation**
