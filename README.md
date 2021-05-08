@@ -17,6 +17,8 @@ Zink ontop of Turnip currently exposes OpenGL 3.0 on an Adreno 650 GPU which sho
 * Only Adreno GPUs are supported (unless you want to use software rendering)
 
 ## Quick installation guide:
+* Download and install [BusyBox](https://play.google.com/store/apps/details?id=stericson.busybox&hl=de&gl=US) from the PlayStore. Note that BusyBox might get uninstalled on rebooting your device, so please always make sure if it is installed before using the launcher.
+* Set SELinux to permissive, either by running **_su -c setenforce 0_** in a terminal or by using the SELinux mode changer.
 * Download the APK from the releases tab, install it, launch it and give it root permissions, then close it again.
 * Download the .obb cache from the releases tab and copy it to /storage/emulated/0/Android/obb/lu.grima04.virglvtestlauncher
 * Now, launch the app again, let it extract the rootfs and wait until it finishes.
