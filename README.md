@@ -15,6 +15,7 @@ Zink ontop of Turnip currently exposes OpenGL 3.0 on an Adreno 650 GPU which sho
 ## Things to note:
 * This app requires root
 * Only Adreno GPUs are supported (unless you want to use software rendering)
+* A relatively recent Snapdragon Android device with the DRM/DRI GPU interface is needed (check if /dev/dri/card0 exists on the device)
 
 ## Quick installation guide:
 * Download and install [BusyBox](https://play.google.com/store/apps/details?id=stericson.busybox&hl=de&gl=US) from the PlayStore. Note that BusyBox might get uninstalled on rebooting your device, so please always make sure if it is installed before using the launcher.
