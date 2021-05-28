@@ -5,21 +5,22 @@ VirGL vtest Launcher - Experimental launcher for virgl vtest, zink and Turnip to
 VirGL vtest Launcher is an experimental application which chroots into an Ubuntu 20.04 ARM64 rootfs with the OpenSource Turnip Adreno Vulkan driver, Zink and virgl vtest server preinstalled. Afterwards it launches the virgl vtest server and uses Turnip as the Vulkan driver and zink for OpenGL over Vulkan wrapping. The vtest server then forwards and receives OpenGL calls to/from the ExaGear client side.
 
 ## What is currently supported?
-Zink ontop of Turnip currently exposes OpenGL 3.0 on an Adreno 650 GPU which should be enough to support quite a few games, the results may differ on other Adreno GPUs. However Turnip and Zink are still having some issues, so many games will not render at all or show graphical artifacts.
+Zink ontop of Turnip currently exposes OpenGL 3.0 and OpenGL ES 3.1 on an Adreno 650 GPU which should be enough to support quite a few games, the results may differ on other Adreno GPUs. However Turnip and Zink are still having some issues, so many games will not render at all or show graphical artifacts.
 
 ## Known issues:
-* virgl causes significant slowdowns / performance losses
-* DirectX9+ games and software will most likely only render a black screen
-* Games might suffer from vertex explosions and/or other graphical artifacts
+* virgl causes significant slowdowns / performance losses.
+* DirectX9+ games and software will most likely only render a black screen when using Zink's OpenGL backend. Please use Zink's OpenGL ES backend as a temporary workaround.
+* Games might suffer from vertex explosions and/or other graphical artifacts due to a non implemented Vulkan extension in the Turnip driver.
 
 ## Things to note:
-* This app requires root
-* Only Adreno GPUs are supported (unless you want to use software rendering)
-* A relatively recent Snapdragon Android device with the DRM/DRI GPU interface is needed (check if /dev/dri/card0 exists on the device)
+* This app requires root.
+* You **need** the specific BusyBox version linked in the quick installation guide. Other BusyBox versions like the BusyBox Magisk module might not work.
+* Only Adreno GPUs are supported (unless you want to use software rendering).
+* A relatively recent **Snapdragon** Android device **with the DRM/DRI GPU interface** is needed (check if /dev/dri/card0 exists on the device).
 
 ## Quick installation guide:
 * Download and install [BusyBox](https://play.google.com/store/apps/details?id=stericson.busybox&hl=de&gl=US) from the PlayStore. Note that BusyBox might get uninstalled on rebooting your device, so please always make sure if it is installed before using the launcher.
-* Set SELinux to permissive, either by running **_su -c setenforce 0_** in a terminal or by using the SELinux mode changer.
+* Set SELinux to permissive if the vtest server launches but no connection can be established from the ExaGear side, either by running **_su -c setenforce 0_** in a terminal or by using the SELinux mode changer.
 * Download the APK from the releases tab, install it, launch it and give it root permissions, then close it again.
 * Download the .obb cache from the releases tab and copy it to /storage/emulated/0/Android/obb/lu.grima04.virglvtestlauncher
 * Now, launch the app again, let it extract the rootfs and wait until it finishes.
@@ -27,6 +28,7 @@ Zink ontop of Turnip currently exposes OpenGL 3.0 on an Adreno 650 GPU which sho
 * If everything works as planned, you can now press the START button on the launcher app
 * Now you are able to open ExaGear and launch your games
 * When you are done, please do not forget to press STOP to properly kill all the background processes, otherwise they will continue running in the background and drain your battery
+* Also remember to set SELinux back to enforcing as soon as you are done using the app for security reasons
 
 ## Third party software:
 * [AnLinux Ubuntu rootfs](https://github.com/EXALAB/Anlinux-Resources/tree/master/Rootfs/Ubuntu/arm64) GPL-2.0 License
