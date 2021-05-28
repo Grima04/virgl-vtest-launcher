@@ -22,11 +22,13 @@ package lu.grima04.virglvtestlauncher;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Environment;
 import android.text.method.ScrollingMovementMethod;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -51,6 +53,7 @@ public class MainActivity extends AppCompatActivity {
     protected static ProcessBuilder setupProcessBuilder = null;
     protected static Process setupProcess = null;
     protected TextView terminal;
+    protected TextView deviceSupportedTextView;
     protected static ProcessBuilder emulationProcessBuilder = null;
     protected static Process emulationProcess = null;
     protected static BufferedWriter shellWriter = null;
@@ -59,6 +62,7 @@ public class MainActivity extends AppCompatActivity {
     protected static Button stop;
     protected static Button glxgears;
     protected static Switch useSoftwareRendering;
+    protected static Switch useGLES;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,15 +70,28 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         terminal = (TextView) findViewById(R.id.terminalView);
+        deviceSupportedTextView = (TextView) findViewById(R.id.deviceSupportedTextView);
         terminal.setMovementMethod(new ScrollingMovementMethod());
         start = (Button) findViewById(R.id.start);
         stop = (Button) findViewById(R.id.stop);
         glxgears = (Button) findViewById(R.id.glxgears);
         useSoftwareRendering = (Switch) findViewById(R.id.softwareRendering);
+        useGLES = (Switch) findViewById(R.id.useGLES);
         System.out.println("Files directory: " + getFilesDir());
         System.out.println("OBB directory: " + getApplicationContext().getObbDir());
 
         try {
+            File card0 = new File("/dev/dri/card0");
+            if(card0.exists() == false){
+                deviceSupportedTextView.setTextColor(Color.RED);
+                deviceSupportedTextView.setText("Error! Could not find /dev/dri/card0 !" + System.lineSeparator() + "Your device is most likely not supported.");
+            }else if(card0.exists() == true){
+                deviceSupportedTextView.setTextColor(Color.GREEN);
+                deviceSupportedTextView.setText("Your device seems to support the DRM interface and is most likely supported!");
+            }else{
+                deviceSupportedTextView.setText("");
+            }
+
             if(isDirEmpty(Paths.get("/data/data/lu.grima04.virglvtestlauncher/files")) && isDeviceRooted()==true){
                 extractOBB();
             }else if (isDeviceRooted()==true){
@@ -105,7 +122,10 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 try {
                     //Kill all processes related to vtest
-                    Process killx11 = Runtime.getRuntime().exec("su -c killall glxgears && su -c killall Xvfb && su -c killall virgl_test_server && su -c killall grep");
+                    Runtime.getRuntime().exec("su -c killall glxgears");
+                    Runtime.getRuntime().exec("su -c killall Xvfb");
+                    Runtime.getRuntime().exec("su -c killall virgl_test_server");
+                    Runtime.getRuntime().exec("su -c killall grep");
                     printConsole = false;
                     emulationProcess.destroy();
                     terminal.setText("Stopped all background processes!");
@@ -242,7 +262,7 @@ public class MainActivity extends AppCompatActivity {
                     shellWriter.newLine();
                     shellWriter.flush();
                 }else{
-                    shellWriter.write("export DISPLAY=:0 && export MESA_GLSL_CACHE_DISABLE=true && export MESA_NO_ERROR=1 && export MESA_GL_VERSION_OVERRIDE=4.6COMPAT && export GALLIUM_DRIVER=zink && export MESA_DRIVER_LOADER_OVERRIDE=zink");
+                    shellWriter.write("export DISPLAY=:0 && export GALLIUM_DRIVER=zink && export MESA_DRIVER_LOADER_OVERRIDE=zink");
                     shellWriter.newLine();
                     shellWriter.flush();
                 }
@@ -253,7 +273,7 @@ public class MainActivity extends AppCompatActivity {
                     shellWriter.newLine();
                     shellWriter.flush();
                     //execute glxgears and get the GL_RENDERER String
-                    shellWriter.write("sleep 2 && glxgears");
+                    shellWriter.write("sleep 2 && env glxgears");
                     shellWriter.newLine();
                     shellWriter.flush();
                     //Print the shell output in the Android Studio Logcat and on the application TextView
@@ -268,11 +288,17 @@ public class MainActivity extends AppCompatActivity {
                     shellWriter.newLine();
                     shellWriter.flush();
                     //Launch virgl vtest
-                    shellWriter.write("./virgl_test_server --use-glx & echo 'Started virgl vtest!' &");
-                    //shellWriter.write("glxgears");
-                    shellWriter.newLine();
-                    shellWriter.flush();
+                    if(useGLES.isChecked() == true){
+                        shellWriter.write("./virgl_test_server --use-gles & echo 'Started virgl vtest!' &");
+                        shellWriter.newLine();
+                        shellWriter.flush();
+                    }else{
+                        shellWriter.write("env MESA_GLSL_CACHE_DISABLE=true MESA_NO_ERROR=1 MESA_GL_VERSION_OVERRIDE=4.6COMPAT ./virgl_test_server --use-glx & echo 'Started virgl vtest!' &");
+                        shellWriter.newLine();
+                        shellWriter.flush();
+                    }
                     Runtime.getRuntime().exec("su -c sleep 5 && su -c chmod 777 /data/data/com.eltechs.ed/files/image/tmp/.virgl_test");
+
                     //Print the shell output in the Android Studio Logcat and on the application TextView
                     printConsoleOutput(emulationProcess,terminal);
                 }

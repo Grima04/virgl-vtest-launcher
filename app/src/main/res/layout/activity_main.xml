@@ -6,21 +6,30 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
+    <Switch
+        android:id="@+id/useGLES"
+        android:layout_width="333dp"
+        android:layout_height="29dp"
+        android:layout_marginEnd="40dp"
+        android:layout_marginStart="40dp"
+        android:layout_marginTop="10dp"
+        android:text="Use Zink GLES (DX9 black screen fix)"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/softwareRendering" />
+
     <TextView
         android:id="@+id/terminalView"
         android:layout_width="353dp"
         android:layout_height="146dp"
-        android:layout_marginBottom="209dp"
         android:layout_marginEnd="29dp"
         android:layout_marginStart="29dp"
-        android:layout_marginTop="160dp"
+        android:layout_marginTop="25dp"
         android:text="Terminal output:"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintTop_toBottomOf="@+id/deviceSupportedTextView" />
 
     <Button
         android:id="@+id/start"
@@ -65,5 +74,19 @@
         app:layout_constraintEnd_toStartOf="@+id/stop"
         app:layout_constraintStart_toEndOf="@+id/start"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/deviceSupportedTextView"
+        android:layout_width="339dp"
+        android:layout_height="46dp"
+        android:layout_marginEnd="40dp"
+        android:layout_marginStart="40dp"
+        android:layout_marginTop="25dp"
+        android:text="Checking if device is supported..."
+        android:textAlignment="center"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/useGLES" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
