@@ -30,6 +30,19 @@ Zink ontop of Turnip currently exposes OpenGL 3.0 and OpenGL ES 3.1 on an Adreno
 * When you are done, please do not forget to press STOP to properly kill all the background processes, otherwise they will continue running in the background and drain your battery
 * Also remember to set SELinux back to enforcing as soon as you are done using the app for security reasons
 
+## Gallery (all tests performed on an Adreno 650 GPU)
+* OpenGL 3.2 Mesh Exploder demo (GPU Caps Viewer) [Unstable framerate between 50 and 110 FPS, 1280x681 windowed]
+![](https://github.com/Grima04/virgl-vtest-launcher/blob/master/images/Screenshot_2021-06-01-15-10-16-258_com.eltechs.ed.jpg?raw=true)
+* OpenGL 3.2 Shadertoy Seascape demo (GPU Caps Viewer) [Around 16 FPS, 1280x681 windowed]
+![](https://github.com/Grima04/virgl-vtest-launcher/blob/master/images/Screenshot_2021-06-01-14-55-39-935_com.eltechs.ed.jpg?raw=true)
+* OpenGL 3.2 Spherical Env Mapping demo (GPU Caps Viewer) [Around 70 to 100 FPS, 1280x681 windowed]
+![](https://github.com/Grima04/virgl-vtest-launcher/blob/master/images/Screenshot_2021-06-01-15-03-36-699_com.eltechs.ed.jpg?raw=true)
+* OpenGL 2.1 Shadertoy Radial Blur demo (GPU Caps Viewer) [Around 11 to 15 FPS, 1280x681 windowed]
+![](https://github.com/Grima04/virgl-vtest-launcher/blob/master/images/Screenshot_2021-06-01-15-04-55-901_com.eltechs.ed.jpg?raw=true)
+* OpenGL wglgears demo (glxgears Windows port)
+![](https://github.com/Grima04/virgl-vtest-launcher/blob/master/images/Screenshot_2021-06-01-14-50-53-400_com.eltechs.ed.jpg?raw=true)
+
+
 ## Third party software:
 * [AnLinux Ubuntu rootfs](https://github.com/EXALAB/Anlinux-Resources/tree/master/Rootfs/Ubuntu/arm64) GPL-2.0 License
 * [Mesa (includes Turnip, virgl and zink)](https://github.com/mesa3d/mesa) MIT License and other GPL2 compatible licenses
